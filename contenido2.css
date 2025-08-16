@@ -1,0 +1,9 @@
+.main_content2 {
+  display: block;       /* para que no quede al lado del slider */
+  clear: both;          /* limpia floats si los hubiera */
+  margin-top: 30px;     /* espacio de separación con el slider */
+  background: #fff;     /* estilo opcional */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}

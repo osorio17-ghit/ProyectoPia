@@ -31,10 +31,11 @@
 
 .card-content img {
   width: 100px;
-  height: auto;
-  margin-bottom: 15px;
+  height: 100px;          /* mismo alto para todas */
+  object-fit: contain;    /* mantiene proporción sin deformar */
+  display: block;
+  margin: 0 auto 15px;    /* centrado con margen abajo */
 }
-
 .card-content h3 {
   font-size: 18px;
   margin-bottom: 10px;
