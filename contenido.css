@@ -31,21 +31,10 @@
 
 .card-content img {
   width: 100px;
-  height: 100px;          /* mismo alto para todas */
-  object-fit: contain;    /* mantiene proporción sin deformar */
-  display: block;
-  margin: 0 auto 15px;    /* centrado con margen abajo */
+  height: auto;
+  margin-bottom: 15px;
 }
 
-.card-content h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.card-content p {
-  font-size: 14px;
-  color: #555;
-}
 
 /* Botones */
 .prev, .next {
@@ -81,4 +70,104 @@
 
 .dot.active {
   background: #333;
+}
+/* === SLIDER === */
+.slider {
+  position: relative;
+  width: 90%;               /* ocupa el 90% del contenedor */
+  margin: 40px auto;
+  overflow: hidden;
+  transition: width 0.3s ease;  /* animación suave al cambiar */
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.card {
+  flex: 1 1 33.33%;   /* por defecto 3 tarjetas visibles */
+  max-width: 33.33%;  /* evita que se estiren más */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.card-content {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;        /* se adapta al espacio disponible */
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card-content img {
+  width: 80px;         
+  height: 80px;
+  object-fit: contain; 
+  display: block;
+  margin: 0 auto 15px;
+}
+
+.card-content h1 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.card-content p {
+  font-size: 13px;
+  color: #555;
+}
+
+/* Botones */
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+/* 👇 saca los botones hacia afuera */
+.prev { left: -12px; }   
+.next { right: -12px; }
+
+/* Indicadores */
+.indicators {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 5px;
+  background: #bbb;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dot.active {
+  background: #333;
+}
+
+/* === CUANDO EL MENÚ ESTÁ ABIERTO === */
+body.menu-open .slider {
+  width: 60%; /* el slider se hace más pequeño */
+}
+
+body.menu-open .slides {
+  transform: translateX(0); /* se asegura de empezar en la primera tarjeta */
+}
+
+body.menu-open .card {
+  flex: 0 0 33.33%;   /* fuerza a que solo 3 se vean */
+  max-width: 33.33%;
 }
