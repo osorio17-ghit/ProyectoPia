@@ -134,7 +134,6 @@
   border-radius: 50%;
 }
 
-/* 👇 saca los botones hacia afuera */
 .prev { left: -12px; }   
 .next { right: -12px; }
 
