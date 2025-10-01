@@ -1,36 +1,98 @@
-// === SLIDER ===
-const slides = document.querySelector('.slides');
-const totalCards = document.querySelectorAll('.card').length;
-const indicators = document.querySelector('.indicators');
+// slider.js — versión compatible y robusta
+document.addEventListener('DOMContentLoaded', function () {
+  const slides = document.querySelector('.slides');
+  const cards = document.querySelectorAll('.card');
+  const slider = document.querySelector('.slider');
+  const indicatorsContainer = document.querySelector('.indicators');
 
-let index = 0;
-const cardsPerView = 3; // mostramos 3 por paso
-const totalSteps = Math.ceil(totalCards / cardsPerView);
+  if (!slides || !slider || !cards || cards.length === 0) {
+    console.warn('Slider: faltan elementos .slides, .slider o .card en el HTML.');
+    return;
+  }
 
-// Crear indicadores dinámicamente
-for (let i = 0; i < totalSteps; i++) {
-  const dot = document.createElement('span');
-  dot.classList.add('dot');
-  if (i === 0) dot.classList.add('active');
-  dot.addEventListener('click', () => showSlide(i));
-  indicators.appendChild(dot);
-}
+  const visibleCards = 3;
+  const totalCards = cards.length;
+  let index = 0;
+  let autoSlide = null;
+  const maxIndex = Math.max(0, totalCards - visibleCards);
 
-const dots = document.querySelectorAll('.dot');
+  // Si no hay más tarjetas que las visibles, no animar
+  if (totalCards <= visibleCards) {
+    // opcional: ocultar indicadores si existen
+    if (indicatorsContainer) indicatorsContainer.style.display = 'none';
+    return;
+  }
 
-function showSlide(i) {
-  index = i;
-  slides.style.transform = `translateX(${-index * 100}%)`;
-  dots.forEach(dot => dot.classList.remove('active'));
-  dots[index].classList.add('active');
-}
+  // Crear indicadores dinámicos (si existe el contenedor)
+  if (indicatorsContainer) {
+    indicatorsContainer.innerHTML = '';
+    for (let i = 0; i <= maxIndex; i++) {
+      const dot = document.createElement('span');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      // closure para que i se capture correctamente
+      (function (idx, element) {
+        element.addEventListener('click', function () {
+          showSlide(idx);
+          resetAutoSlide();
+        });
+      })(i, dot);
+      indicatorsContainer.appendChild(dot);
+    }
+  }
 
-document.querySelector('.prev').addEventListener('click', () => {
-  index = (index > 0) ? index - 1 : totalSteps - 1;
-  showSlide(index);
-});
+  const dots = indicatorsContainer ? indicatorsContainer.querySelectorAll('.dot') : [];
 
-document.querySelector('.next').addEventListener('click', () => {
-  index = (index < totalSteps - 1) ? index + 1 : 0;
-  showSlide(index);
+  function showSlide(i) {
+    if (i < 0) i = maxIndex;
+    if (i > maxIndex) i = 0;
+    index = i;
+    const percent = index * (100 / visibleCards);
+    slides.style.transform = 'translateX(-' + percent + '%)';
+
+    // actualizar indicadores
+    if (dots && dots.length) {
+      dots.forEach(d => d.classList.remove('active'));
+      if (dots[index]) dots[index].classList.add('active');
+    }
+  }
+
+  function startAutoSlide() {
+    stopAutoSlide();
+    autoSlide = setInterval(function () {
+      showSlide(index + 1);
+    }, 3000);
+  }
+
+  function stopAutoSlide() {
+    if (autoSlide !== null) {
+      clearInterval(autoSlide);
+      autoSlide = null;
+    }
+  }
+
+  function resetAutoSlide() {
+    stopAutoSlide();
+    startAutoSlide();
+  }
+
+  // Pausar/Reanudar al entrar/salir del slider
+  slider.addEventListener('mouseenter', stopAutoSlide);
+  slider.addEventListener('mouseleave', startAutoSlide);
+
+  // Hover en tarjetas: añadimos/quitan clase .card-hover
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', function () {
+      card.classList.add('card-hover');
+      // opcional: pausar si quieres que no avance mientras hover en tarjeta
+      stopAutoSlide();
+    });
+    card.addEventListener('mouseleave', function () {
+      card.classList.remove('card-hover');
+      startAutoSlide();
+    });
+  });
+
+  // Iniciar
+  showSlide(0);
+  startAutoSlide();
 });

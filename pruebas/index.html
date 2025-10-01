@@ -1,38 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Profile</title>
+  <title>Página con Botón</title>
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-
-  <!-- Formulario de Registro -->
-  <div class="container" id="register">
-    <h2>Register</h2>
-    <input type="text" id="regUsername" placeholder="Enter username" required><br>
-    <input type="email" id="regEmail" placeholder="Enter email" required><br>
-    <input type="password" id="regPassword" placeholder="Enter password" required><br>
-    <button onclick="registerUser()">Register</button>
-    <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
-  </div>
-
-  <!-- Formulario de Login -->
-  <div class="container hidden" id="login">
-    <h2>Login</h2>
-    <input type="text" id="loginUsername" placeholder="Enter username" required><br>
-    <input type="password" id="loginPassword" placeholder="Enter password" required><br>
-    <button onclick="loginUser()">Login</button>
-    <p>Don't have an account? <a href="#" onclick="showRegister()">Register</a></p>
-  </div>
-
-  <!-- Perfil del Usuario -->
-  <div class="container hidden" id="profile">
-    <h2>Welcome!</h2>
-    <p><b>Username:</b> <span id="showUsername"></span></p>
-    <p><b>Email:</b> <span id="showEmail"></span></p>
-    <button onclick="logout()">Logout</button>
+  <!-- Propuesta 1 -->
+  <div class="propuesta">
+    <h2>Propuesta 1</h2>
+    <p>Descripción breve de la propuesta.</p>
+    <button id="btnPropuesta1">Dar Grader</button>
   </div>
 
   <script src="java.js"></script>
